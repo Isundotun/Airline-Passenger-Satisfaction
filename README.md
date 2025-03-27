@@ -10,9 +10,6 @@ This project analyzes airline passenger satisfaction using SQL and EDA to identi
 - Column Explanations
 ####  Data Processing
 #### Exploratory Data Analysis (EDA)
-- Passenger Demographics & Generation Categorization
-- Satisfaction Trends & Key Insights
-- Impact of Flight Class & Delays on Satisfaction
 #### SQL Queries: Extracting Insights
 - Satisfaction Analysis by Generation
 - Impact of Delays on Customer Experience
@@ -26,7 +23,7 @@ This project analyzes airline passenger satisfaction using SQL and EDA to identi
 #### References & Appendix
 
 
-#### Introduction
+### Introduction
 
 This project analyzes airline passenger satisfaction using SQL and EDA to identify key factors affecting experience. IT is gotten from Maven Analytics. It examines demographics, travel behavior, and service ratings, categorizing passengers by generation. Insights on delays, comfort, and service quality help airlines improve retention, reduce dissatisfaction, and optimize operations.
 - Purpose of the Analysis
@@ -35,7 +32,7 @@ The primary goal of this analysis is to understand the key factors that influenc
 - Objectives
 
 This analysis aims to determine the key drivers of airline passenger satisfaction and dissatisfaction. By evaluating service aspects such as seat comfort, in-flight services, cleanliness, and flight punctuality, it identifies areas that impact customer experience. The study also compares satisfaction levels among different passenger segments, including travel class and customer type. These insights help airlines improve service quality, address pain points, and enhance customer loyalty. By using data-driven decision-making, airlines can optimize operations, refine customer service strategies, and create a better overall travel experience, leading to increased passenger retention and higher satisfaction ratings.
-#### Dataset Overview
+### Dataset Overview
 | **Field**                                   | **Description**                                                                                                                        |
 |---------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | **ID**                                      | Unique passenger identifier                                                                                                            |
@@ -62,10 +59,10 @@ This analysis aims to determine the key drivers of airline passenger satisfactio
 | **In-flight Entertainment**                 | Satisfaction level with the in-flight entertainment from 1 (lowest) to 5 (highest) – 0 means "not applicable"                             |
 | **Baggage Handling**                        | Satisfaction level with the baggage handling from the airline from 1 (lowest) to 5 (highest) – 0 means "not applicable"                     |
 | **Satisfaction**                            | Overall satisfaction level with the airline (Satisfied/Neutral or Unsatisfied)                                                           |
-####  Data Processing
+###  Data Processing
 
 The dataset is gotten from Maven analytics website mainly for practise purposes. it is represnted in an excel file with asingle table and 129,880 rows and 25 column
-#### Exploratory Data Analysis (EDA)
+### Exploratory Data Analysis (EDA)
 
 Exploratory Data Analysis (EDA) helps uncover key patterns and insights from the dataset. First, customer demographics show that a significant portion of passengers are returning customers, with business travelers being the majority. Younger travelers (20-49 years old) form the largest age group.
 
@@ -91,6 +88,48 @@ SET Gen =
         ELSE 'Adult'
     END;
 ```
+Explanation:
+- BETWEEN 1 AND 12 → Categorizes passengers as "Children."
+
+- BETWEEN 13 AND 19 → Categorizes passengers as "Teenagers."
+
+- BETWEEN 20 AND 49 → Categorizes passengers as "Youth."
+
+- ELSE 'Adult' → Categorizes passengers 50 and above as "Adult."
+
+  ### SQL Queries: Extracting Insights
+  SQL queries help analyze airline passenger satisfaction by identifying trends and key factors influencing customer experiences. To segment passengers, a Gen column is created based on age groups. Queries can calculate the percentage of satisfied passengers by generation, identify the most common travel class among satisfied passengers, and analyze average ratings for different services (e.g., seat comfort, in-flight WiFi, food quality). Additionally, queries can evaluate the impact of delays on satisfaction by comparing ratings for flights with and without delays. These insights help airlines improve services, enhance customer retention, and optimize operational efficiency.
+ - Satisfaction Analysis by Generation
+```SQL
+ 	---percentage of airline passengers are satisfied using Gen
+SELECT Gen,
+    COUNT(CASE WHEN Satisfaction = 'Satisfied' THEN 1 END) * 100 / COUNT(*) AS SP
+FROM airline_passenger_satisfaction
+GROUP BY Gen
+ORDER BY SP DESC
+```
+Explanation
+- Gen: Groups the results by generation (Children, Teenagers, Youth, Adults).
+- COUNT(CASE WHEN Satisfaction = 'Satisfied' THEN 1 END): Counts only the passengers who marked their satisfaction as "Satisfied".
+- COUNT(*): Counts all passengers in that generation.
+- Multiplication by 100.0 ensures accurate percentage calculation (avoids integer division).
+- Sorts the results in descending order, so the generation with the highest satisfaction percentage appears first.
+
+```SQL
+--- numbers of the total trip taken by returning passengers grouped by GEN
+SELECT Gen,  
+    COUNT(*) AS Total_Trips
+FROM airline_passenger_satisfaction
+WHERE Customer_type = 'Returning'
+GROUP BY Gen
+ORDER BY Total_Trips DESC;
+```
+Explanation
+- Gen: Groups passengers by generation (Children, Teenagers, Youth, Adults).
+- COUNT(*) AS Total_Trips: Counts the total number of trips taken by returning passengers in each generation.
+- Filters the data to include only returning passengers (Customer_type = 'Returning').
+- Groups passengers by generation to calculate trip totals per age group.
+- Sorts the results in descending order, displaying the generation with the highest number of trips first.
 
 
 
