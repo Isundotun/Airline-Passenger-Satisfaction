@@ -11,12 +11,7 @@ This project analyzes airline passenger satisfaction using SQL and EDA to identi
 ####  Data Processing
 #### Exploratory Data Analysis (EDA)
 #### SQL Queries: Extracting Insights
-#### Findings & Key Insights
-- Factors Contributing to Satisfaction
-- Factors Leading to Dissatisfaction
 #### Conclusion & Recommendations
-- Summary of Insights
--Suggestions for Improving Customer Experience
 #### References & Appendix
 
 
@@ -241,13 +236,121 @@ Insights
 - Flight Delay Impact:
  Check if Economy-class business travelers experience more delays than those in higher classes.
 
+```SQL
+---people travelling for the first time
+Select *
+From airline_passenger_satisfaction
+Where Customer_type = 'First-time'
+--OR
+Select Count (Distinct Customer_type) As Total_CT
+From airline_passenger_satisfaction
+---OR
+Select count (*)Total_CTS
+From airline_passenger_satisfaction
+where Customer_type = 'First-time'
+```
+Insight:
+Identifying first-time airline passengers helps analyze their travel behavior, satisfaction levels, and preferences. By filtering these passengers, we can assess whether they experience higher dissatisfaction, longer delays, or different service expectations compared to returning customers.
+
+Purpose:
+The goal is to understand the needs of first-time travelers and improve their experience. This can help airlines optimize onboarding processes, enhance customer support, and tailor marketing strategies to convert them into returning passengers.
+
+```SQL
+--- people who took economy class for personal trip
+Select *
+From airline_passenger_satisfaction
+where Class = 'Economy'
+and Type_of_Travel = 'personal'
+```
+Insight:
+This query identifies passengers who traveled in Economy class for personal trips. Analyzing this group helps understand their satisfaction levels, common complaints, and service preferences compared to business travelers. It can also reveal trends in flight delays, comfort, and in-flight services for leisure travelers.
+
+Purpose:
+The goal is to improve the experience for personal travelers in Economy class. Airlines can use these insights to enhance affordability, comfort, and entertainment options for leisure passengers, ensuring better retention and customer satisfaction.
+
+```SQL
+---How many customers came from Economy PLus
+Select count (*)Total_EP
+From airline_passenger_satisfaction
+where Class = 'Economy PLus'
+```
+Purpose:
+The goal is to evaluate customer demand for Economy Plus and assess its impact on satisfaction. Airlines can use this insight to optimize pricing, enhance in-flight services, and improve marketing strategies to attract more passengers to this class.
+
+```SQL
+---distinct number of class
+Select Count (Distinct Class) As Total_Class
+From airline_passenger_satisfaction
+```
+Purpose:
+The goal is to analyze customer distribution across different classes and assess how satisfaction levels vary. This insight helps airlines optimize seat pricing, service quality, and upgrade strategies to improve customer experience and revenue.
+
+```SQL
+--- how many customers from ecomony where satisfied
+Select count (*) As Total_E_S
+From airline_passenger_satisfaction
+where Class = 'Economy'
+And Satisfaction = 'satisfied'
+```
+Purpose:
+The goal is to assess service quality in Economy class and identify factors contributing to satisfaction. Airlines can use this insight to enhance budget-friendly offerings, improve in-flight services, and address common complaints to increase customer retention.
+
+```SQL
+--Identify which customer types are more satisfied
+--Compare First-time vs. Returning passengers
+SELECT 
+    Customer_Type, 
+    Satisfaction, 
+    COUNT(*) AS Total_Customers
+FROM airline_passenger_satisfaction
+GROUP BY Customer_Type, Satisfaction
+ORDER BY Customer_Type, Satisfaction;
+```
+Insight:
+ This query compares First-time and Returning passengers based on their satisfaction levels. By grouping customers by Customer_Type and Satisfaction, it reveals whether returning passengers tend to be more satisfied than first-time travelers. It also helps identify potential gaps in service quality for new customers.
+
+Purpose:
+ The goal is to analyze customer loyalty and satisfaction trends. Airlines can use this insight to improve first-time passenger experiences, ensuring they return for future trips. Additionally, it helps airlines tailor loyalty programs and personalized services to maintain high satisfaction among returning passengers.
+
+```SQL
+-- numbers of returning passengers
+SELECT 
+count (*)Total_CTR
+FROM airline_passenger_satisfaction
+Where Customer_type = 'Returning'
+```
+Purpose:
+The goal is to evaluate customer retention and understand how many passengers choose to fly with the airline multiple times. Airlines can use this insight to enhance loyalty programs, personalize offers, and improve service quality to increase repeat customers.
+
+### Conclusion & Recommendations
+
+#### Conclusion 
+
+The analysis of airline passenger satisfaction reveals several key insights. Returning passengers generally exhibit higher satisfaction levels than first-time travelers, suggesting that **familiarity with airline services improves customer experience**. Economy class passengers report varying satisfaction levels, highlighting the need for **enhanced services at different price points**. Longer flight delays, both in **departure and arrival**, are strongly correlated with lower satisfaction, emphasizing the importance of **efficient scheduling and punctuality**. Additionally, aspects like **seat comfort, in-flight entertainment, and WiFi service** play a crucial role in shaping passenger experiences.  
+
+#### Recommendations
+1. Enhance First-Time Passenger Experience – Improve onboarding and communication to ensure new travelers feel valued and comfortable.  
+2. Reduce Flight Delays – Optimize operations and scheduling to minimize **departure and arrival delays**, as they significantly impact satisfaction.  
+3. Improve Economy Class Services – Enhance seat comfort, food quality, and customer service to **increase satisfaction among budget travelers**.  
+4. Personalized Loyalty Programs – Offer incentives, upgrades, and rewards to encourage repeat customers and maintain high retention rates.  
+5. Invest in In-Flight Amenities – Improve **WiFi service, entertainment, and seating comfort** to enhance the overall travel experience.  
+
+By implementing these improvements, airlines can **increase customer loyalty, reduce dissatisfaction, and improve overall service quality**, leading to a more competitive and customer-centric airline industry.
 
 
+### References & Appendix
 
+#### References
+- **Airline Passenger Satisfaction Dataset** – Source of data used for analysis.  
+- **SQL Queries & Data Processing** – Queries used to extract insights, including satisfaction trends, customer segmentation, and service evaluation.  
+- **Industry Reports & Studies** – Aviation customer experience studies highlighting factors affecting airline satisfaction.  
+- **Previous Research on Flight Delays & Customer Retention** – Studies correlating flight delays with customer dissatisfaction.  
 
-
-
-
+#### Appendix
+- **SQL Queries Used**: A complete list of all queries used for data extraction, filtering, and analysis.  
+- **Data Dictionary**: Explanation of all dataset fields (e.g., `Gen`, `Satisfaction`, `Class`, `Flight Distance`).  
+- **Graphs & Visualizations**: Charts showing satisfaction trends by generation, class, and customer type.  
+- **Data Cleaning Steps**: Methods used to handle missing values, correct inconsistencies, and ensure data integrity.
 
 
 
